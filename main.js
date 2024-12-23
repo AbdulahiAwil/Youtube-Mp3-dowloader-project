@@ -750,6 +750,14 @@ function videoDisplay(videos){
             </div>
         `;
 
+        videoItem.addEventListener("click", ()=> openModal(video.videoId))
+
+        const closeModal = document.querySelector("#close-modal").addEventListener("click", ()=>{
+            const modal = document.querySelector("#video-modal");
+            modal.style.display = "none"
+        })
+
+
         videoList.appendChild(videoItem)
     })
     
@@ -758,3 +766,44 @@ function videoDisplay(videos){
    
 }
 
+function openModal(videoId){
+
+    const modal = document.querySelector("#video-modal");
+    const videoPlayer = document.querySelector("#video-player");
+
+    const videoUrl = `https://www.youtube.com/embed/${videoId}`;
+    videoPlayer.src = videoUrl;
+    modal.style.display = "block"
+
+
+    document.querySelector("#download-mp3").addEventListener("click", async function(){
+        
+
+        const url = `https://youtube-mp36.p.rapidapi.com/dl?id=${videoId}`;
+
+      
+        const options = {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-key': 'de473292aemsh323a497ba493ceep123541jsn449764a94822',
+                'x-rapidapi-host': 'youtube-mp36.p.rapidapi.com'
+            }
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            if(result.status === "ok"){
+
+                window.location.href = result.link;
+
+            }else{
+                alert("Error downloading MP3")
+            }
+        } catch (error) {
+            console.error(error);
+        }
+   
+    })
+
+}
