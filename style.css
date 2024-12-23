@@ -45,3 +45,7 @@
     max-width: 800px;
     background-color: azure;
 }
+#video-player{
+    width: 100%;
+    height: 450px;
+}
